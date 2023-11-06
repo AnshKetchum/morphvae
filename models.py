@@ -286,8 +286,7 @@ class Seq2Seq_VAE(nn.Module):
     
     def encode(self, src, src_len):
         
-        hidden, cell = self.encoder(src,src_len)
-
+        hidden, cell = self.encoder(src,src_len.to("cpu"))
         n_layers, batch_size, hid_dim = hidden.shape
         # hidden, cell = [n_layers, batch size, hid dim]
         # project to latent space

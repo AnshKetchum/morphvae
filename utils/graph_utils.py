@@ -71,7 +71,7 @@ def get_barcode(T, root=0, weight=None, order='asc'):
     top_order = get_sorted_node_ids(T, root=root, weight=weight, order=order)
     node_ids = np.array(list(T.nodes()))
     index_order = [np.where(node_ids == t)[0][0] for t in top_order]
-    bct = np.array(np.sum(nx.adj_matrix(T)[:, index_order][index_order, :].T, axis=0))[0]
+    bct = np.array(np.sum(nx.adjacency_matrix(T)[:, index_order][index_order, :].T, axis=0))[0]
     return bct, index_order
 
 
