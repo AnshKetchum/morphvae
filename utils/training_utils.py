@@ -83,26 +83,27 @@ def train(model,classifier, iterator, optimizer, model_criterion,
         # unlabeled_examples contains the indices of the unlabeled fraction of data
 
         # set the unlabelled examples to ignore index
-        masked_labels = torch.zeros_like(true_labels)
-        masked_labels.copy_(true_labels)
-        masked_labels[unlabeled_examples] = ignore_index
+        # masked_labels = torch.zeros_like(true_labels).float()
+        # masked_labels.copy_(true_labels)
+        # masked_labels[unlabeled_examples] = ignore_index
        
-        pred_label = classifier(model.Z)
+        # pred_label = classifier(model.Z).float()
+        # print(pred_label, masked_labels.float())
 
-        class_vae_loss = classifier_criterion(pred_label,masked_labels) * n_walks 
+        # class_vae_loss = classifier_criterion(pred_label,masked_labels) * n_walks 
 
         # if the no or little labels are passed to the classifier it should still be able to train
-        Z_ = model.Z.detach()
-        pred_label_ = classifier(Z_)
+        # Z_ = model.Z.detach()
+        # pred_label_ = classifier(Z_)
 
-        class_loss = classifier_criterion(pred_label_,true_labels) * n_walks 
-        class_loss.backward()
+        # class_loss = classifier_criterion(pred_label_,true_labels) * n_walks 
+        # class_loss.backward()
         
-        if norm_p is not None:
-            norm_loss = model.h.norm(p=norm_p, dim=1).sum()
-        else: 
-            norm_loss = 0
-        loss = rec_loss + class_vae_loss + norm_loss
+        # if norm_p is not None:
+        #     norm_loss = model.h.norm(p=norm_p, dim=1).sum()
+        # else: 
+        #     norm_loss = 0
+        loss = rec_loss #+ class_vae_loss + norm_loss
         loss.backward()
         
         torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
@@ -113,7 +114,7 @@ def train(model,classifier, iterator, optimizer, model_criterion,
         epoch_loss += loss.item()
     
     torch.cuda.empty_cache()
-    return epoch_loss / len(iterator), class_loss.item()/len(iterator)
+    return epoch_loss / len(iterator), 0#class_loss.item()/len(iterator)
 
 
 def evaluate(model, classifier, iterator, model_criterion, classifier_criterion, norm_p=1):

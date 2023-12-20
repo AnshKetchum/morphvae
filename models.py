@@ -257,6 +257,7 @@ class PoolingClassifier(nn.Module):
         pooled_X = self.pooling_layer(X).squeeze()
         
         output = self.fc(self.dropout(pooled_X))
+        print(output)
         return output
     
 
@@ -277,6 +278,7 @@ class Seq2Seq_VAE(nn.Module):
         self.latent_to_states = nn.Linear(dist.lat_dim, decoder.hid_dim*decoder.n_layers*2)
         self.decoder = decoder
         self.device = device
+        self.latent_dim = dist.lat_dim
         
         assert encoder.hid_dim == decoder.hid_dim, \
             "Hidden dimensions of encoder and decoder must be equal!"

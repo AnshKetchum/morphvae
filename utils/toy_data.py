@@ -25,6 +25,9 @@ class ToyNeuron:
         self.edge_list = []
         self.min_degree = min_degree
         self.max_degree = max_degree
+
+    def __repr__(self):
+        return f"Neuron(dim={self.dim},lam={self.lam},node_dict={self.node_dict}, edge_list={self.edge_list}, min_degree={self.min_degree}, max_degree={self.max_degree})"
     
     def rotate(self, start):  
         # sample angle # TO DO make this an exponentially decaying function
